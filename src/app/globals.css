@@ -1,26 +1,342 @@
 @import "tailwindcss";
 
+/* -----------------------------------------------------------
+   CloudForge — Theme tokens
+   "Depth without weight": dark ink base, drifting aurora, glass.
+   ----------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Ink — the dark base. Subtle blue cast, never black. */
+  --ink-950: #06080f;
+  --ink-900: #080a12;
+  --ink-800: #0d1120;
+  --ink-700: #131a2e;
+  --ink-600: #1a2340;
+
+  /* Mist — foreground text + chrome on dark ink. */
+  --mist-50:  #f4f7fb;
+  --mist-100: #e6ecf5;
+  --mist-200: #c4cfde;
+  --mist-300: #9aa7bd;
+  --mist-400: #6c7a93;
+  --mist-500: #4a5670;
+
+  /* Teal / cyan spectrum — the primary spectrum. */
+  --teal-200: #9af5e5;
+  --teal-300: #5ee9d2;
+  --teal-400: #2fd9bf;
+  --teal-500: #18bfa7;
+  --teal-600: #0f9c89;
+  --cyan-300: #7ce8ff;
+  --cyan-400: #2dd2f7;
+  --cyan-500: #0aa9d6;
+
+  /* Coral — the single warm accent. Use sparingly. */
+  --coral-300: #ffb59a;
+  --coral-400: #ff8a6a;
+  --coral-500: #ff6a48;
+  --coral-600: #e54a2b;
+
+  /* Surfaces. */
+  --background: var(--ink-900);
+  --foreground: var(--mist-50);
+  --surface-1: color-mix(in srgb, var(--mist-50) 4%, transparent);
+  --surface-2: color-mix(in srgb, var(--mist-50) 7%, transparent);
+  --surface-3: color-mix(in srgb, var(--mist-50) 10%, transparent);
+  --hairline:  color-mix(in srgb, var(--mist-50) 12%, transparent);
+  --hairline-strong: color-mix(in srgb, var(--mist-50) 22%, transparent);
+
+  /* Depth shadows — kept compact. Large blur radii paint expensively;
+   * a 40px shadow looks 99% as good as 80px at a fraction of the cost. */
+  --shadow-glass:
+    0 1px 0 0 color-mix(in srgb, var(--mist-50) 10%, transparent) inset,
+    0 16px 40px -16px rgba(2, 6, 23, 0.6),
+    0 4px 12px -6px rgba(2, 6, 23, 0.45);
+  --shadow-pop:
+    0 0 0 1px color-mix(in srgb, var(--teal-300) 30%, transparent),
+    0 12px 32px -10px color-mix(in srgb, var(--teal-400) 35%, transparent);
+
+  /* Easing. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @theme inline {
+  /* Map to Tailwind utility names. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-ink-950: var(--ink-950);
+  --color-ink-900: var(--ink-900);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ink-600: var(--ink-600);
+
+  --color-mist-50:  var(--mist-50);
+  --color-mist-100: var(--mist-100);
+  --color-mist-200: var(--mist-200);
+  --color-mist-300: var(--mist-300);
+  --color-mist-400: var(--mist-400);
+  --color-mist-500: var(--mist-500);
+
+  --color-teal-200: var(--teal-200);
+  --color-teal-300: var(--teal-300);
+  --color-teal-400: var(--teal-400);
+  --color-teal-500: var(--teal-500);
+  --color-teal-600: var(--teal-600);
+  --color-cyan-300: var(--cyan-300);
+  --color-cyan-400: var(--cyan-400);
+  --color-cyan-500: var(--cyan-500);
+  --color-coral-300: var(--coral-300);
+  --color-coral-400: var(--coral-400);
+  --color-coral-500: var(--coral-500);
+  --color-coral-600: var(--coral-600);
+
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-display);
+  --font-serif: var(--font-serif);
+
+  --shadow-glass: var(--shadow-glass);
+  --shadow-pop:   var(--shadow-pop);
+
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 2.75rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* -----------------------------------------------------------
+   Base
+   ----------------------------------------------------------- */
+
+html, body {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--teal-400) 45%, transparent);
+  color: var(--mist-50);
+}
+
+/* Subtle film grain — single fixed layer, no blend mode (compositor-free). */
+.bg-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 3px 3px;
+  /* Promote to its own layer so it isn't repainted with content. */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* -----------------------------------------------------------
+   Reusable primitives
+   ----------------------------------------------------------- */
+
+/* Glass surfaces.
+ * backdrop-filter is the single most expensive property on the page —
+ * cost scales with radius² × area. We keep the radius low and bake in
+ * a richer tinted gradient so the surface still reads as glass without
+ * the compositor doing per-frame blur work. */
+@utility glass {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--mist-50) 9%, transparent) 0%,
+    color-mix(in srgb, var(--ink-800) 35%, transparent) 100%
+  );
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(8px) saturate(125%);
+  -webkit-backdrop-filter: blur(8px) saturate(125%);
+  box-shadow: var(--shadow-glass);
+  /* Contain limits damage rects to this box on scroll. */
+  contain: layout paint;
+}
+
+@utility glass-strong {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--mist-50) 13%, transparent) 0%,
+    color-mix(in srgb, var(--ink-800) 40%, transparent) 100%
+  );
+  border: 1px solid var(--hairline-strong);
+  backdrop-filter: blur(12px) saturate(135%);
+  -webkit-backdrop-filter: blur(12px) saturate(135%);
+  box-shadow: var(--shadow-glass);
+  contain: layout paint;
+}
+
+@utility ring-hairline {
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--mist-50) 0%,
+    var(--teal-300) 50%,
+    var(--cyan-300) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-warm {
+  background: linear-gradient(
+    90deg,
+    var(--mist-50) 0%,
+    var(--coral-300) 60%,
+    var(--coral-500) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Aurora orb — radial gradients are free; CSS filter blur is not.
+ * We use a wide-spread soft radial instead of filter:blur — same look,
+ * a fraction of the cost. The orbs sit on their own compositor layers. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Don't let aurora paint leak into the document compositing tree. */
+  contain: strict;
+}
+.aurora__orb {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.55;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+.aurora__orb--teal {
+  width: 42rem; height: 42rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--teal-400) 70%, transparent), transparent 72%);
+}
+.aurora__orb--cyan {
+  width: 36rem; height: 36rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--cyan-400) 65%, transparent), transparent 72%);
+}
+.aurora__orb--coral {
+  width: 28rem; height: 28rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--coral-500) 55%, transparent), transparent 72%);
+  opacity: 0.35;
+}
+
+/* Char reveal.
+ *
+ * - The element itself stays a normal block so lines wrap on real
+ *   whitespace between word spans.
+ * - Each word is its own clip mask. `white-space: nowrap` keeps chars
+ *   inside a word atomic, so wrap only ever happens between words.
+ * - `vertical-align: baseline` aligns word baselines with the text
+ *   baseline — no padding/margin trickery, no inter-line overlap.
+ * - Chars inside the word are inline-block so we can translate them. */
+.char-reveal {
+  line-height: inherit;
+}
+.char-reveal__word {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: baseline;
+  white-space: nowrap;
+  /* Pull the clip box up a hair so descenders (g, p, y, comma, period)
+   * stay visible on tight line-heights. Counteracted by negative margin
+   * so layout is unaffected. */
+  padding: 0.08em 0;
+  margin: -0.08em 0;
+}
+.char-reveal .char {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+/* No-JS fallback: just show the text. */
+.no-js .char-reveal .char {
+  transform: none;
+}
+
+/* Hairline divider. */
+@utility hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--hairline-strong) 20%,
+    var(--hairline-strong) 80%,
+    transparent
+  );
+  height: 1px;
+}
+
+/* Marquee — runs on a single composited layer. */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+.marquee--reverse { animation-direction: reverse; }
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Anything we parallax against scroll lives on a GPU layer. */
+.gpu-layer {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* `content-visibility: auto` lets the browser skip layout/paint/composite
+ * work for offscreen sections entirely — a huge perf win on long pages.
+ * The `contain-intrinsic-size` hint prevents the scrollbar from jumping
+ * as sections un-skip near the viewport. */
+.paint-skip {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 720px;
+}
+
+/* Reduced motion — kill all decorative animation. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .char-reveal .char { transform: none; }
+  .aurora__orb { opacity: 0.35; }
+  .marquee { animation: none; }
+}
+
+/* Focus states. */
+:focus-visible {
+  outline: 2px solid var(--teal-300);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
