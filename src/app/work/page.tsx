@@ -13,8 +13,10 @@ export default function WorkPage() {
   return (
     <>
       <PageHero
-        eyebrow="Selected work"
+        eyebrow="Work / Selected case studies"
+        section="24 engagements · 2019 — present"
         title="The receipts."
+        accentWord="receipts"
         description={
           <>
             A representative sample of recent engagements. Every project below

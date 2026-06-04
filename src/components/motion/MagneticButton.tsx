@@ -8,20 +8,16 @@ interface MagneticButtonProps {
   href: string;
   children: ReactNode;
   className?: string;
-  variant?: "primary" | "ghost" | "warm";
+  variant?: "primary" | "ghost" | "warm" | "bone";
   strength?: number;
 }
 
-/**
- * A button that gently follows the cursor when hovered.
- * Falls back to a static CTA under reduced motion.
- */
 export default function MagneticButton({
   href,
   children,
   className = "",
   variant = "primary",
-  strength = 0.35,
+  strength = 0.32,
 }: MagneticButtonProps) {
   const wrapRef = useRef<HTMLAnchorElement | null>(null);
   const innerRef = useRef<HTMLSpanElement | null>(null);
@@ -72,14 +68,17 @@ export default function MagneticButton({
   );
 
   const base =
-    "relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium tracking-tight transition-colors will-change-transform";
+    "relative inline-flex items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-medium tracking-tight transition-colors will-change-transform";
+
   const variants: Record<NonNullable<MagneticButtonProps["variant"]>, string> = {
     primary:
-      "bg-gradient-to-br from-teal-300 to-cyan-400 text-ink-950 hover:brightness-105 shadow-[0_18px_40px_-12px_color-mix(in_srgb,var(--teal-400)_45%,transparent)]",
+      "paper-bone hover:brightness-95 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.55)] border-0",
+    bone:
+      "paper-bone hover:brightness-95 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.55)] border-0",
     warm:
-      "bg-gradient-to-br from-coral-300 to-coral-500 text-ink-950 hover:brightness-105 shadow-[0_18px_40px_-12px_color-mix(in_srgb,var(--coral-500)_45%,transparent)]",
+      "bg-gradient-to-br from-amber-400 to-amber-600 text-ink-900 hover:brightness-105 shadow-[0_18px_40px_-12px_color-mix(in_srgb,var(--amber-500)_45%,transparent)]",
     ghost:
-      "glass text-mist-100 hover:text-mist-50 hover:[box-shadow:var(--shadow-pop)]",
+      "ring-hairline-strong text-mist-100 hover:text-mist-50 hover:[box-shadow:var(--shadow-pop)]",
   };
 
   return (

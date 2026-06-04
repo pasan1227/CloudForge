@@ -5,9 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { nav } from "@/data/site";
 import Logo from "./Logo";
+import StatusBar from "./StatusBar";
 
-// External-store hook for "is page scrolled past N pixels?". React only
-// re-renders when the boolean flips, so the navbar stays off the hot path.
 const SCROLL_THRESHOLD = 12;
 
 function subscribeScroll(cb: () => void): () => void {
@@ -29,9 +28,6 @@ export default function Navbar() {
     getScrolledServerSnapshot
   );
   const [open, setOpen] = useState(false);
-  // Auto-close the mobile menu on navigation. Storing the previous pathname
-  // in state and updating during render is the canonical React pattern for
-  // "reset state when a prop changes" (avoids an effect sync round-trip).
   const [lastPath, setLastPath] = useState(pathname);
   if (lastPath !== pathname) {
     setLastPath(pathname);
@@ -50,15 +46,33 @@ export default function Navbar() {
     <header
       className={[
         "fixed top-0 inset-x-0 z-50 transition-all duration-500",
-        scrolled ? "pt-3" : "pt-6",
+        scrolled ? "pt-0" : "pt-0",
       ].join(" ")}
     >
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+      {/* Operator status strip — only visible when not scrolled, fades out as
+       * the user starts moving through the page. */}
+      <div
+        className={[
+          "mx-auto w-full max-w-7xl px-4 sm:px-6 transition-all duration-500",
+          scrolled
+            ? "opacity-0 -translate-y-2 pointer-events-none h-0 overflow-hidden"
+            : "opacity-100 translate-y-0",
+        ].join(" ")}
+      >
+        <StatusBar />
+      </div>
+
+      <div
+        className={[
+          "mx-auto w-full max-w-7xl px-4 sm:px-6 transition-all duration-500",
+          scrolled ? "pt-3" : "pt-3",
+        ].join(" ")}
+      >
         <nav
           className={[
-            "flex items-center justify-between gap-6 rounded-full pl-5 pr-2 py-2 transition-all duration-500",
+            "flex items-center justify-between gap-6 pl-5 pr-2 py-2.5 transition-all duration-500",
             scrolled
-              ? "glass-strong"
+              ? "paper-strong rounded-full"
               : "border border-transparent bg-transparent",
           ].join(" ")}
           aria-label="Primary"
@@ -81,13 +95,15 @@ export default function Navbar() {
                         : "text-mist-300 hover:text-mist-50",
                     ].join(" ")}
                   >
-                    {active && (
+                    {active ? (
                       <span
                         aria-hidden="true"
-                        className="absolute inset-0 rounded-full bg-surface-2 ring-hairline"
+                        className="absolute inset-x-3 -bottom-0.5 h-px bg-amber-400"
                       />
-                    )}
-                    <span className="relative">{l.label}</span>
+                    ) : null}
+                    <span className="relative ops-label text-current">
+                      {l.label}
+                    </span>
                   </Link>
                 </li>
               );
@@ -97,10 +113,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <Link
               href="/contact"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-mist-50 text-ink-950 px-4 py-2 text-sm font-medium hover:brightness-95 transition"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full paper-bone px-4 py-2 text-sm font-medium hover:brightness-95 transition"
             >
               Start a project
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true" className="font-mono">↗</span>
             </Link>
 
             <button
@@ -108,7 +124,7 @@ export default function Navbar() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="md:hidden glass relative h-10 w-10 rounded-full grid place-items-center"
+              className="md:hidden paper relative h-10 w-10 rounded-full grid place-items-center"
             >
               <span
                 aria-hidden="true"
@@ -138,7 +154,7 @@ export default function Navbar() {
             : "opacity-0 scale-95 pointer-events-none",
         ].join(" ")}
       >
-        <div className="glass-strong rounded-3xl p-3">
+        <div className="paper-strong rounded-3xl p-3">
           <ul className="flex flex-col">
             {nav.map((l) => {
               const active =
@@ -154,8 +170,8 @@ export default function Navbar() {
                         : "text-mist-200 hover:bg-surface-1",
                     ].join(" ")}
                   >
-                    <span>{l.label}</span>
-                    <span aria-hidden="true" className="text-mist-400">→</span>
+                    <span className="font-display text-xl">{l.label}</span>
+                    <span aria-hidden="true" className="text-mist-400 font-mono">→</span>
                   </Link>
                 </li>
               );
@@ -163,7 +179,7 @@ export default function Navbar() {
             <li className="mt-2">
               <Link
                 href="/contact"
-                className="flex items-center justify-center rounded-2xl bg-mist-50 text-ink-950 px-4 py-4 font-medium"
+                className="flex items-center justify-center rounded-2xl paper-bone px-4 py-4 font-medium"
               >
                 Start a project
               </Link>

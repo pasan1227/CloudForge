@@ -1,60 +1,70 @@
 @import "tailwindcss";
 
 /* -----------------------------------------------------------
-   CloudForge — Theme tokens
-   "Depth without weight": dark ink base, drifting aurora, glass.
+   CloudForge — theme tokens
+   "The Workshop, after hours": warm ink, single amber signal,
+   bone-cream accents, hairline rules as compositional spine.
    ----------------------------------------------------------- */
 
 :root {
-  /* Ink — the dark base. Subtle blue cast, never black. */
-  --ink-950: #06080f;
-  --ink-900: #080a12;
-  --ink-800: #0d1120;
-  --ink-700: #131a2e;
-  --ink-600: #1a2340;
+  /* Ink — slightly warm, deep blue-black with a hint of plum. */
+  --ink-950: #050509;
+  --ink-900: #07070f;
+  --ink-850: #0b0b18;
+  --ink-800: #10101e;
+  --ink-700: #161629;
+  --ink-600: #1d1d36;
 
-  /* Mist — foreground text + chrome on dark ink. */
-  --mist-50:  #f4f7fb;
-  --mist-100: #e6ecf5;
-  --mist-200: #c4cfde;
-  --mist-300: #9aa7bd;
-  --mist-400: #6c7a93;
-  --mist-500: #4a5670;
+  /* Mist — warm-leaning text, away from cold blue-gray. */
+  --mist-50:  #f4f1ea;   /* near-cream */
+  --mist-100: #ebe6da;
+  --mist-200: #c7c0b1;
+  --mist-300: #948c7c;
+  --mist-400: #6a6555;
+  --mist-500: #4a463a;
 
-  /* Teal / cyan spectrum — the primary spectrum. */
-  --teal-200: #9af5e5;
-  --teal-300: #5ee9d2;
-  --teal-400: #2fd9bf;
-  --teal-500: #18bfa7;
-  --teal-600: #0f9c89;
-  --cyan-300: #7ce8ff;
-  --cyan-400: #2dd2f7;
-  --cyan-500: #0aa9d6;
+  /* Bone — warm off-white surface for inverted CTA + key callouts. */
+  --bone-50:  #f7efd9;
+  --bone-100: #ede0c0;
+  --bone-200: #d6c39c;
 
-  /* Coral — the single warm accent. Use sparingly. */
-  --coral-300: #ffb59a;
-  --coral-400: #ff8a6a;
-  --coral-500: #ff6a48;
-  --coral-600: #e54a2b;
+  /* Amber — the single signature accent. Used SPARINGLY. */
+  --amber-200: #ffd9a8;
+  --amber-300: #ffbe7d;
+  --amber-400: #ff9d4c;
+  --amber-500: #ff7a3c;   /* primary signal */
+  --amber-600: #e85a1d;
+
+  /* Teal — deep, used only as a "live/active" tertiary signal. */
+  --teal-200: #9adcc9;
+  --teal-300: #5fc6ad;
+  --teal-400: #2fa489;
+  --teal-500: #138066;
+
+  /* Signal — the "live / open / running" indicator. A focused green
+   * with enough warmth to live alongside amber. */
+  --signal-300: #7bf0a9;
+  --signal-400: #3ed683;
+  --signal-500: #18ad60;
 
   /* Surfaces. */
   --background: var(--ink-900);
   --foreground: var(--mist-50);
   --surface-1: color-mix(in srgb, var(--mist-50) 4%, transparent);
   --surface-2: color-mix(in srgb, var(--mist-50) 7%, transparent);
-  --surface-3: color-mix(in srgb, var(--mist-50) 10%, transparent);
-  --hairline:  color-mix(in srgb, var(--mist-50) 12%, transparent);
-  --hairline-strong: color-mix(in srgb, var(--mist-50) 22%, transparent);
+  --surface-3: color-mix(in srgb, var(--mist-50) 11%, transparent);
+  --hairline:  color-mix(in srgb, var(--mist-50) 10%, transparent);
+  --hairline-strong: color-mix(in srgb, var(--mist-50) 20%, transparent);
+  --hairline-amber: color-mix(in srgb, var(--amber-400) 38%, transparent);
 
-  /* Depth shadows — kept compact. Large blur radii paint expensively;
-   * a 40px shadow looks 99% as good as 80px at a fraction of the cost. */
-  --shadow-glass:
-    0 1px 0 0 color-mix(in srgb, var(--mist-50) 10%, transparent) inset,
-    0 16px 40px -16px rgba(2, 6, 23, 0.6),
-    0 4px 12px -6px rgba(2, 6, 23, 0.45);
+  /* Depth shadows — kept compact. Large blur radii are expensive. */
+  --shadow-card:
+    0 1px 0 0 color-mix(in srgb, var(--mist-50) 9%, transparent) inset,
+    0 18px 40px -20px rgba(0, 0, 0, 0.55),
+    0 4px 12px -6px rgba(0, 0, 0, 0.4);
   --shadow-pop:
-    0 0 0 1px color-mix(in srgb, var(--teal-300) 30%, transparent),
-    0 12px 32px -10px color-mix(in srgb, var(--teal-400) 35%, transparent);
+    0 0 0 1px color-mix(in srgb, var(--amber-400) 28%, transparent),
+    0 16px 40px -12px color-mix(in srgb, var(--amber-500) 32%, transparent);
 
   /* Easing. */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -68,6 +78,7 @@
 
   --color-ink-950: var(--ink-950);
   --color-ink-900: var(--ink-900);
+  --color-ink-850: var(--ink-850);
   --color-ink-800: var(--ink-800);
   --color-ink-700: var(--ink-700);
   --color-ink-600: var(--ink-600);
@@ -79,18 +90,24 @@
   --color-mist-400: var(--mist-400);
   --color-mist-500: var(--mist-500);
 
+  --color-bone-50:  var(--bone-50);
+  --color-bone-100: var(--bone-100);
+  --color-bone-200: var(--bone-200);
+
+  --color-amber-200: var(--amber-200);
+  --color-amber-300: var(--amber-300);
+  --color-amber-400: var(--amber-400);
+  --color-amber-500: var(--amber-500);
+  --color-amber-600: var(--amber-600);
+
   --color-teal-200: var(--teal-200);
   --color-teal-300: var(--teal-300);
   --color-teal-400: var(--teal-400);
   --color-teal-500: var(--teal-500);
-  --color-teal-600: var(--teal-600);
-  --color-cyan-300: var(--cyan-300);
-  --color-cyan-400: var(--cyan-400);
-  --color-cyan-500: var(--cyan-500);
-  --color-coral-300: var(--coral-300);
-  --color-coral-400: var(--coral-400);
-  --color-coral-500: var(--coral-500);
-  --color-coral-600: var(--coral-600);
+
+  --color-signal-300: var(--signal-300);
+  --color-signal-400: var(--signal-400);
+  --color-signal-500: var(--signal-500);
 
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
@@ -99,11 +116,12 @@
   --color-hairline-strong: var(--hairline-strong);
 
   --font-display: var(--font-display);
-  --font-sans: var(--font-display);
-  --font-serif: var(--font-serif);
+  --font-sans:    var(--font-sans);
+  --font-serif:   var(--font-serif);
+  --font-mono:    var(--font-mono);
 
-  --shadow-glass: var(--shadow-glass);
-  --shadow-pop:   var(--shadow-pop);
+  --shadow-card: var(--shadow-card);
+  --shadow-pop:  var(--shadow-pop);
 
   --radius-xs: 0.375rem;
   --radius-sm: 0.625rem;
@@ -124,63 +142,125 @@ html, body {
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Inter Tight feature flags: contextual alternates, calt, kern. */
+  font-feature-settings: "ss01", "cv11", "kern";
+  letter-spacing: -0.01em;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--teal-400) 45%, transparent);
-  color: var(--mist-50);
+  background: color-mix(in srgb, var(--amber-400) 60%, transparent);
+  color: var(--ink-900);
 }
 
-/* Subtle film grain — single fixed layer, no blend mode (compositor-free). */
+/* Display serif — Source Serif 4. Default weight 400, but most large
+ * headline usages override to 500 or use italic. Tight tracking suits
+ * its high-contrast strokes. */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-feature-settings: "kern", "liga", "dlig";
+  letter-spacing: -0.02em;
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-feature-settings: "kern", "liga";
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, "JetBrains Mono", monospace;
+  font-feature-settings: "kern", "ss02";
+}
+
+/* Subtle film grain — single fixed layer, no blend mode. */
 .bg-grain::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.04;
-  background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px);
+  opacity: 0.05;
+  background-image: radial-gradient(rgba(255, 240, 220, 0.6) 1px, transparent 1px);
   background-size: 3px 3px;
-  /* Promote to its own layer so it isn't repainted with content. */
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* Scanline atmosphere — very faint vertical stripes. */
+.bg-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(255, 245, 230, 0.6) 1px,
+    transparent 2px,
+    transparent 6px
+  );
+  transform: translateZ(0);
 }
 
 /* -----------------------------------------------------------
    Reusable primitives
    ----------------------------------------------------------- */
 
-/* Glass surfaces.
- * backdrop-filter is the single most expensive property on the page —
- * cost scales with radius² × area. We keep the radius low and bake in
- * a richer tinted gradient so the surface still reads as glass without
- * the compositor doing per-frame blur work. */
-@utility glass {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--mist-50) 9%, transparent) 0%,
-    color-mix(in srgb, var(--ink-800) 35%, transparent) 100%
-  );
+/* Editorial surface — thin border, subtle warm gradient, no blur.
+ * Performance: zero backdrop-filter cost. */
+@utility paper {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mist-50) 4%, transparent) 0%,
+      color-mix(in srgb, var(--ink-850) 30%, transparent) 100%
+    );
   border: 1px solid var(--hairline);
-  backdrop-filter: blur(8px) saturate(125%);
-  -webkit-backdrop-filter: blur(8px) saturate(125%);
-  box-shadow: var(--shadow-glass);
-  /* Contain limits damage rects to this box on scroll. */
+  box-shadow: var(--shadow-card);
+  contain: layout paint;
+}
+
+@utility paper-strong {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mist-50) 7%, transparent) 0%,
+      color-mix(in srgb, var(--ink-850) 38%, transparent) 100%
+    );
+  border: 1px solid var(--hairline-strong);
+  box-shadow: var(--shadow-card);
+  contain: layout paint;
+}
+
+/* Legacy aliases so I don't have to rewrite every existing glass utility usage
+ * in subsections; they now reference the new paper surface. */
+@utility glass {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mist-50) 5%, transparent) 0%,
+      color-mix(in srgb, var(--ink-850) 32%, transparent) 100%
+    );
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
   contain: layout paint;
 }
 
 @utility glass-strong {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--mist-50) 13%, transparent) 0%,
-    color-mix(in srgb, var(--ink-800) 40%, transparent) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mist-50) 8%, transparent) 0%,
+      color-mix(in srgb, var(--ink-850) 40%, transparent) 100%
+    );
   border: 1px solid var(--hairline-strong);
-  backdrop-filter: blur(12px) saturate(135%);
-  -webkit-backdrop-filter: blur(12px) saturate(135%);
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-card);
   contain: layout paint;
 }
 
@@ -188,12 +268,29 @@ body {
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
 
+@utility ring-hairline-strong {
+  box-shadow: inset 0 0 0 1px var(--hairline-strong);
+}
+
+/* Inverted bone surface — the editorial CTA. */
+@utility paper-bone {
+  background: linear-gradient(180deg, var(--bone-50) 0%, var(--bone-100) 100%);
+  color: var(--ink-900);
+  border: 1px solid color-mix(in srgb, var(--bone-200) 60%, transparent);
+}
+
+/* Single-color accent (no rainbow gradient). */
+@utility text-amber {
+  color: var(--amber-400);
+}
+
+/* Gradient used only on a single hero accent and big numbers. */
 @utility text-gradient {
   background: linear-gradient(
-    90deg,
+    100deg,
     var(--mist-50) 0%,
-    var(--teal-300) 50%,
-    var(--cyan-300) 100%
+    var(--mist-50) 40%,
+    var(--amber-300) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -202,96 +299,76 @@ body {
 
 @utility text-gradient-warm {
   background: linear-gradient(
-    90deg,
-    var(--mist-50) 0%,
-    var(--coral-300) 60%,
-    var(--coral-500) 100%
+    100deg,
+    var(--amber-200) 0%,
+    var(--amber-400) 60%,
+    var(--amber-600) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Editorial outlined numeral.
- * Pure stroke, no fill — used for chapter-marker-style numerals at huge sizes.
- * The drop-shadow is a single radial bloom; kept tight so it doesn't repaint
- * neighbors on scroll. */
+/* Editorial outlined numeral. */
 @utility numeral-outline {
   color: transparent;
-  -webkit-text-stroke: 1.25px var(--teal-300);
-  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--teal-400) 22%, transparent));
+  -webkit-text-stroke: 1.25px color-mix(in srgb, var(--amber-300) 80%, transparent);
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--amber-500) 22%, transparent));
 }
 
 @utility numeral-outline-warm {
   color: transparent;
-  -webkit-text-stroke: 1.25px var(--coral-400);
-  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--coral-500) 22%, transparent));
+  -webkit-text-stroke: 1.25px color-mix(in srgb, var(--bone-100) 80%, transparent);
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--bone-50) 15%, transparent));
 }
 
-/* Aurora orb — radial gradients are free; CSS filter blur is not.
- * We use a wide-spread soft radial instead of filter:blur — same look,
- * a fraction of the cost. The orbs sit on their own compositor layers. */
-.aurora {
+/* The warm low-glow — one orb per section, sits on its own layer. */
+.glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  /* Don't let aurora paint leak into the document compositing tree. */
   contain: strict;
 }
-.aurora__orb {
+.glow__orb {
   position: absolute;
   border-radius: 9999px;
-  opacity: 0.55;
+  opacity: 0.5;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
-.aurora__orb--teal {
-  width: 42rem; height: 42rem;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--teal-400) 70%, transparent), transparent 72%);
+.glow__orb--amber {
+  width: 44rem; height: 44rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--amber-500) 60%, transparent), transparent 70%);
 }
-.aurora__orb--cyan {
-  width: 36rem; height: 36rem;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--cyan-400) 65%, transparent), transparent 72%);
-}
-.aurora__orb--coral {
-  width: 28rem; height: 28rem;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--coral-500) 55%, transparent), transparent 72%);
+.glow__orb--bone {
+  width: 32rem; height: 32rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--bone-50) 22%, transparent), transparent 70%);
   opacity: 0.35;
 }
 
-/* Char reveal.
- *
- * - The element itself stays a normal block so lines wrap on real
- *   whitespace between word spans.
- * - Each word is its own clip mask. `white-space: nowrap` keeps chars
- *   inside a word atomic, so wrap only ever happens between words.
- * - `vertical-align: baseline` aligns word baselines with the text
- *   baseline — no padding/margin trickery, no inter-line overlap.
- * - Chars inside the word are inline-block so we can translate them. */
-.char-reveal {
-  line-height: inherit;
-}
+/* Char reveal. */
+.char-reveal { line-height: inherit; }
 .char-reveal__word {
   display: inline-block;
   overflow: clip;
   vertical-align: baseline;
   white-space: nowrap;
-  /* Pull the clip box up a hair so descenders (g, p, y, comma, period)
-   * stay visible on tight line-heights. Counteracted by negative margin
-   * so layout is unaffected. */
-  padding: 0.08em 0;
-  margin: -0.08em 0;
+  padding: 0.12em 0;
+  margin: -0.12em 0;
 }
 .char-reveal .char {
   display: inline-block;
   transform: translateY(110%);
   will-change: transform;
 }
+.no-js .char-reveal .char { transform: none; }
 
-/* No-JS fallback: just show the text. */
-.no-js .char-reveal .char {
-  transform: none;
+/* Clip reveal — single-beat headline reveal via clip-path.
+ * Cheaper than per-char animation; gives a single confident moment. */
+.clip-reveal {
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
 }
 
 /* Hairline divider. */
@@ -299,18 +376,28 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    var(--hairline-strong) 20%,
-    var(--hairline-strong) 80%,
+    var(--hairline-strong) 18%,
+    var(--hairline-strong) 82%,
     transparent
   );
   height: 1px;
 }
 
-/* Marquee — runs on a single composited layer. */
+/* Tick row — a series of vertical dashes used as rhythm device. */
+@utility tick-rule {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--hairline-strong) 0 1px,
+    transparent 1px 12px
+  );
+  height: 6px;
+}
+
+/* Marquee — single composited layer. */
 .marquee {
   display: flex;
   width: max-content;
-  animation: marquee 50s linear infinite;
+  animation: marquee 60s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
@@ -321,23 +408,90 @@ body {
   to   { transform: translate3d(-50%, 0, 0); }
 }
 
-/* Anything we parallax against scroll lives on a GPU layer. */
 .gpu-layer {
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 
-/* `content-visibility: auto` lets the browser skip layout/paint/composite
- * work for offscreen sections entirely — a huge perf win on long pages.
- * The `contain-intrinsic-size` hint prevents the scrollbar from jumping
- * as sections un-skip near the viewport. */
 .paint-skip {
   content-visibility: auto;
   contain-intrinsic-size: 1px 720px;
 }
 
-/* Reduced motion — kill all decorative animation. */
+/* Small caps eyebrow — the editorial label. */
+@utility eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist-300);
+}
+
+/* Operator-grade label — used for ops chrome, status bars, section indices. */
+@utility ops-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mist-400);
+}
+
+/* Pulse dot — the "we're live" signal. The dot has a subtle ring that
+ * pulses; if reduced motion is on, the keyframes are stripped globally. */
+@utility live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 9999px;
+  background: var(--signal-400);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal-400) 70%, transparent);
+  animation: live-pulse 2.2s ease-out infinite;
+}
+@keyframes live-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal-400) 60%, transparent); }
+  70%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--signal-400) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal-400) 0%, transparent); }
+}
+
+/* Sparkline container — kept zero cost via inline SVG. */
+@utility sparkline {
+  color: var(--amber-300);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* "System panel" — a slightly cooler ink with a hairline that signals
+ * the engineering side of the studio. */
+@utility panel {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ink-700) 75%, transparent) 0%,
+      color-mix(in srgb, var(--ink-850) 95%, transparent) 100%
+    );
+  border: 1px solid var(--hairline-strong);
+  box-shadow: var(--shadow-card);
+  contain: layout paint;
+}
+
+/* Inline code chip. */
+@utility code-chip {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: -0.01em;
+  background: color-mix(in srgb, var(--ink-700) 70%, transparent);
+  border: 1px solid var(--hairline);
+  color: var(--mist-100);
+  padding: 0.18rem 0.45rem;
+  border-radius: 0.35rem;
+}
+
+/* Reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -346,13 +500,14 @@ body {
     scroll-behavior: auto !important;
   }
   .char-reveal .char { transform: none; }
-  .aurora__orb { opacity: 0.35; }
+  .clip-reveal { clip-path: none; }
+  .glow__orb { opacity: 0.35; }
   .marquee { animation: none; }
 }
 
-/* Focus states. */
+/* Focus. */
 :focus-visible {
-  outline: 2px solid var(--teal-300);
+  outline: 2px solid var(--amber-400);
   outline-offset: 3px;
   border-radius: 4px;
 }

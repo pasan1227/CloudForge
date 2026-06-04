@@ -1,193 +1,130 @@
 "use client";
 
 import { useRef } from "react";
-import Aurora from "@/components/ui/Aurora";
 import MagneticButton from "@/components/motion/MagneticButton";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 
-// The signature scroll moment: char-stagger headline reveal,
-// glass cards parallaxing at different depths, aurora drift.
+// Editorial hero with an operator-grade right column.
 export default function Hero() {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useGSAP(
     () => {
       if (!ref.current) return;
-      const reduce = prefersReducedMotion();
       const root = ref.current;
+      const reduce = prefersReducedMotion();
 
-      const chars = root.querySelectorAll<HTMLSpanElement>(".hero-char");
-      const subline = root.querySelector(".hero-sub");
       const eyebrow = root.querySelector(".hero-eyebrow");
-      const ctaRow = root.querySelector(".hero-cta");
-      const tickerEls = root.querySelectorAll(".hero-ticker > *");
-      const cards = root.querySelectorAll<HTMLElement>(".hero-card");
+      const lineA = root.querySelector(".hero-line-a");
+      const accent = root.querySelector(".hero-accent");
+      const lineB = root.querySelector(".hero-line-b");
+      const sub = root.querySelector(".hero-sub");
+      const cta = root.querySelector(".hero-cta");
+      const panelEls = root.querySelectorAll(".hero-panel-el");
+      const ticker = root.querySelectorAll(".hero-ticker > *");
 
       if (reduce) {
-        gsap.set(chars, { yPercent: 0, opacity: 1 });
-        gsap.set([subline, eyebrow, ctaRow, ...Array.from(tickerEls)], {
-          opacity: 1,
-          y: 0,
-        });
-        gsap.set(cards, { opacity: 1, y: 0 });
+        gsap.set(
+          [eyebrow, lineA, accent, lineB, sub, cta, ...Array.from(panelEls), ...Array.from(ticker)],
+          { opacity: 1, y: 0, clipPath: "none" }
+        );
         return;
       }
 
-      gsap.set(chars, { yPercent: 110, y: 0, opacity: 0 });
-      gsap.set([eyebrow, subline, ctaRow], { opacity: 0, y: 24 });
-      gsap.set(cards, { opacity: 0, y: 28, force3D: true });
-      gsap.set(tickerEls, { opacity: 0, y: 12 });
+      gsap.set([eyebrow, sub, cta], { opacity: 0, y: 22 });
+      gsap.set([lineA, lineB], { opacity: 0, y: 28 });
+      gsap.set(accent, { clipPath: "inset(0 100% 0 0)" });
+      gsap.set(panelEls, { opacity: 0, y: 14 });
+      gsap.set(ticker, { opacity: 0, y: 10 });
 
       const tl = gsap.timeline({
         defaults: { ease: "expo.out", force3D: true },
       });
-      tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.8 }, 0.05)
+
+      tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
+        .to(lineA, { opacity: 1, y: 0, duration: 0.95 }, 0.15)
         .to(
-          chars,
-          { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.022 },
-          0.1
+          accent,
+          { clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "expo.out" },
+          0.45
         )
-        .to(subline, { opacity: 1, y: 0, duration: 0.8 }, 0.45)
-        .to(ctaRow, { opacity: 1, y: 0, duration: 0.7 }, 0.6)
-        .to(tickerEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 }, 0.7)
-        .to(
-          cards,
-          { opacity: 1, y: 0, duration: 1.0, stagger: 0.12 },
-          0.5
-        );
+        .to(lineB, { opacity: 1, y: 0, duration: 0.95 }, 0.6)
+        .to(sub, { opacity: 1, y: 0, duration: 0.8 }, 0.85)
+        .to(cta, { opacity: 1, y: 0, duration: 0.7 }, 1.0)
+        .to(panelEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 }, 0.75)
+        .to(ticker, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07 }, 1.15);
 
-      // Free up `will-change` once the entry animation has finished —
-      // keeping it set forever forces a permanent compositor layer.
-      tl.eventCallback("onComplete", () => {
-        chars.forEach((c) => {
-          c.style.willChange = "auto";
-        });
-      });
-
-      // Single shared ScrollTrigger that scrubs a master tween,
-      // then each card is offset by its depth. Cuts ScrollTrigger
-      // overhead from N to 1 for the hero.
-      const parallaxProgress = { v: 0 };
-      const scrubTween = gsap.to(parallaxProgress, {
-        v: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: root,
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.5,
-          invalidateOnRefresh: true,
-        },
-        onUpdate: () => {
-          const p = parallaxProgress.v;
-          cards.forEach((card) => {
-            const depth = Number(card.dataset.depth ?? "0.3");
-            // translate3d via gsap.set with the same prop — GSAP caches
-            // the transform string so this stays cheap.
-            gsap.set(card, { y: -90 * depth * p, force3D: true });
-          });
-        },
-      });
-
-      return () => {
-        scrubTween.scrollTrigger?.kill();
-        scrubTween.kill();
-      };
+      return () => tl.kill();
     },
     { scope: ref }
-  );
-
-  // Split into word segments so the browser can wrap on real whitespace.
-  // The final word stays italic / gradient as the visual accent.
-  const headline = "Software & growth, in lockstep.";
-  const headlineSegments = headline.split(/(\s+)/).filter((s) => s.length > 0);
-  const accentWordIndex = headlineSegments.findLastIndex(
-    (s) => !/^\s+$/.test(s)
   );
 
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden pt-36 pb-24 sm:pt-44 sm:pb-32"
+      className="relative isolate overflow-hidden pt-44 pb-24 sm:pt-56 sm:pb-32"
     >
-      <Aurora intensity="loud" />
+      {/* Single warm glow. */}
+      <div className="glow" aria-hidden="true">
+        <div className="glow__orb glow__orb--amber -top-40 -right-32" />
+        <div className="glow__orb glow__orb--bone bottom-[-12rem] left-[10%]" />
+      </div>
 
-      {/* Faint grid overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.06] [mask-image:radial-gradient(closest-side,white,transparent_75%)]"
+        className="absolute inset-0 opacity-[0.05] [mask-image:radial-gradient(closest-side,white,transparent_70%)]"
         style={{
           backgroundImage:
             "linear-gradient(to right, var(--mist-100) 1px, transparent 1px), linear-gradient(to bottom, var(--mist-100) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+          backgroundSize: "72px 72px",
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-7">
-            <span className="hero-eyebrow inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-[0.7rem] uppercase tracking-[0.22em] text-mist-200">
-              <span
-                aria-hidden="true"
-                className="inline-block size-1.5 rounded-full bg-teal-300 shadow-[0_0_14px_var(--teal-300)]"
-              />
-              A full-service studio · est. 2019
-            </span>
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10">
+        {/* Eyebrow — practical, not affected. */}
+        <div className="hero-eyebrow flex flex-wrap items-center justify-between gap-4 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-mist-400">
+          <span className="inline-flex items-center gap-3">
+            <span aria-hidden="true" className="live-dot" />
+            <span className="text-mist-100">Open for Q3 — 2 of 4 slots filled</span>
+          </span>
+          <span className="hidden sm:inline">
+            A senior-led product &amp; growth studio
+          </span>
+        </div>
 
-            <h1
-              className="char-reveal mt-8 font-display text-[clamp(2.75rem,5.4vw,5rem)] tracking-tight leading-none text-balance"
-              aria-label={headline}
-            >
-              <span className="sr-only">{headline}</span>
-              <span aria-hidden="true">
-                {headlineSegments.map((seg, i) => {
-                  if (/^\s+$/.test(seg)) {
-                    return <span key={i}>{seg}</span>;
-                  }
-                  const isAccent = i === accentWordIndex;
-                  return (
-                    <span
-                      key={i}
-                      className={[
-                        "char-reveal__word",
-                        isAccent ? "font-serif italic" : "",
-                      ].join(" ")}
-                    >
-                      {Array.from(seg).map((c, j) => (
-                        <span
-                          key={j}
-                          className={[
-                            "hero-char char",
-                            isAccent ? "text-gradient" : "",
-                          ].join(" ")}
-                        >
-                          {c}
-                        </span>
-                      ))}
-                    </span>
-                  );
-                })}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-14">
+          {/* Headline column */}
+          <div className="lg:col-span-7 relative">
+            <h1 className="font-display text-[clamp(3rem,7.5vw,7.5rem)] leading-[0.94] tracking-[-0.025em] text-balance">
+              <span className="hero-line-a block">Software &amp; growth,</span>
+              <span className="hero-line-b block mt-2 sm:mt-3">
+                in&nbsp;
+                <span className="hero-accent inline-block clip-reveal italic font-serif text-gradient-warm">
+                  lockstep
+                </span>
+                <span className="text-mist-400">.</span>
               </span>
             </h1>
 
-            <p className="hero-sub mt-7 max-w-xl text-lg sm:text-xl text-mist-200 leading-relaxed">
-              CloudForge is a senior-led studio that designs, ships, and grows
-              the products you care about — engineering, marketing, brand, and
-              strategy, all on the same Notion.
+            <p className="hero-sub mt-9 max-w-xl text-lg sm:text-xl text-mist-200 leading-relaxed">
+              A senior-led studio that designs, ships, and grows the products
+              you care about — engineering, marketing, brand, and strategy,
+              briefed on the same page.
             </p>
 
-            <div className="hero-cta mt-9 flex flex-wrap items-center gap-4">
+            <div className="hero-cta mt-10 flex flex-wrap items-center gap-4">
               <MagneticButton href="/contact" variant="primary">
                 Start a project
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true" className="font-mono">↗</span>
               </MagneticButton>
-              <MagneticButton href="/work" variant="ghost" strength={0.2}>
+              <MagneticButton href="/work" variant="ghost" strength={0.18}>
                 See the work
               </MagneticButton>
             </div>
 
-            <ul className="hero-ticker mt-12 flex flex-wrap gap-x-8 gap-y-3 text-xs uppercase tracking-[0.22em] text-mist-400">
+            <ul className="hero-ticker mt-14 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-mist-500">
               <li>Trusted by founders at</li>
+              <li aria-hidden="true" className="h-px w-6 bg-hairline-strong" />
               <li className="text-mist-200">Lumen</li>
               <li className="text-mist-200">Halcyon</li>
               <li className="text-mist-200">Northwind</li>
@@ -195,75 +132,195 @@ export default function Hero() {
             </ul>
           </div>
 
-          {/* Glass cards — parallaxed at different depths */}
-          <div className="lg:col-span-5 relative h-[34rem] hidden lg:block">
-            <article
-              data-depth="0.15"
-              className="hero-card absolute top-2 right-2 w-[20rem] rounded-3xl glass-strong p-6 [box-shadow:var(--shadow-pop)]"
-            >
-              <div className="flex items-center justify-between text-xs text-mist-300">
-                <span>Lumen Bank · iOS</span>
-                <span>+118% retention</span>
-              </div>
-              <div className="mt-4 font-display text-3xl tracking-tight">
-                Cashflow,
-                <br />
-                forecast forward.
-              </div>
-              <div className="mt-5 grid grid-cols-3 gap-2 text-[0.7rem] text-mist-300">
-                {["Mar", "Apr", "May", "Jun", "Jul", "Aug"].map((m, i) => (
-                  <div
-                    key={m}
-                    className="rounded-md bg-surface-1 px-2 py-3 text-center"
-                  >
-                    <span className="block text-mist-100">${(7 + i * 1.3).toFixed(1)}k</span>
-                    <span>{m}</span>
-                  </div>
-                ))}
-              </div>
-            </article>
+          {/* System panel — engineering credibility moment. */}
+          <aside className="lg:col-span-5">
+            <SystemPanel />
+          </aside>
+        </div>
 
-            <article
-              data-depth="0.45"
-              className="hero-card absolute top-44 left-2 w-[18rem] rounded-3xl glass p-6"
-            >
-              <div className="text-xs uppercase tracking-[0.2em] text-teal-300">
-                Live experiment · 03
-              </div>
-              <div className="mt-3 font-display text-2xl tracking-tight">
-                Pricing test, week 2
-              </div>
-              <p className="mt-2 text-sm text-mist-300">
-                Tier B is outperforming on conversion <em className="font-serif text-mist-100">and</em> ARPU.
-              </p>
-              <div className="mt-4 flex items-baseline gap-3">
-                <span className="font-display text-3xl text-gradient-warm">+24.6%</span>
-                <span className="text-xs text-mist-400">vs. control</span>
-              </div>
-            </article>
-
-            <article
-              data-depth="0.75"
-              className="hero-card absolute bottom-2 right-6 w-[15rem] rounded-3xl glass-strong p-5"
-            >
-              <div className="text-xs uppercase tracking-[0.2em] text-coral-300">
-                Sprint review
-              </div>
-              <ul className="mt-3 space-y-2 text-sm text-mist-200">
-                <li className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-teal-300" /> Shipped onboarding v3
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-cyan-400" /> Reduced LCP to 1.1s
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-coral-400" /> Launched referral loop
-                </li>
-              </ul>
-            </article>
-          </div>
+        <div className="mt-24 flex items-center gap-5">
+          <span aria-hidden="true" className="hairline flex-1" />
+          <span className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-mist-500">
+            scroll
+          </span>
+          <span
+            aria-hidden="true"
+            className="inline-block h-2 w-2 rotate-45 border-r border-b border-mist-400"
+          />
         </div>
       </div>
     </section>
+  );
+}
+
+/* -----------------------------------------------------------
+ * System panel — the signature moment.
+ *
+ * Reads as a small, working-looking ops console. Two stacked tiles:
+ *   1. Active engagement card with a live sparkline.
+ *   2. Recent activity log — three rows with status dots.
+ * Everything is static data; the *feeling* is dynamic.
+ * --------------------------------------------------------- */
+
+function SystemPanel() {
+  // Sparkline data — a synthetic but credible weekly pipeline curve.
+  const points = [12, 17, 14, 22, 19, 28, 32, 30, 38, 44, 41, 48];
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const range = max - min || 1;
+  const w = 220;
+  const h = 56;
+  const step = w / (points.length - 1);
+  const path = points
+    .map((p, i) => {
+      const x = i * step;
+      const y = h - ((p - min) / range) * h;
+      return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="relative flex flex-col gap-3">
+      {/* Header strip — looks like a window chrome row. */}
+      <div className="hero-panel-el flex items-center justify-between font-mono text-[0.6rem] uppercase tracking-[0.2em] text-mist-500 px-4 py-2 panel rounded-t-2xl border-b-0">
+        <span className="inline-flex items-center gap-2 text-mist-200">
+          <span aria-hidden="true" className="live-dot" />
+          CFG-OPS · LIVE
+        </span>
+        <span>{new Date().toISOString().slice(0, 10)}</span>
+      </div>
+
+      {/* Tile 1 — active engagement w/ sparkline. */}
+      <div className="hero-panel-el panel rounded-2xl p-5">
+        <div className="flex items-baseline justify-between">
+          <div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-mist-400">
+              Active engagement · Kernel OS
+            </div>
+            <div className="mt-2 font-display text-3xl tracking-[-0.02em] text-mist-50">
+              Sprint <span className="font-serif italic text-amber-300">23 / 32</span>
+            </div>
+          </div>
+          <span className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-signal-400 inline-flex items-center gap-2">
+            <span aria-hidden="true" className="live-dot" />
+            On track
+          </span>
+        </div>
+
+        <div className="mt-5 grid grid-cols-[1fr_auto] gap-x-5 items-end">
+          <svg
+            viewBox={`0 0 ${w} ${h}`}
+            width="100%"
+            height={h}
+            aria-hidden="true"
+            className="sparkline"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="cf-spark" x1="0" y1="0" x2={w} y2="0">
+                <stop offset="0" stopColor="var(--amber-200)" stopOpacity="0.5" />
+                <stop offset="1" stopColor="var(--amber-500)" />
+              </linearGradient>
+              <linearGradient id="cf-spark-fill" x1="0" y1="0" x2="0" y2={h}>
+                <stop offset="0" stopColor="var(--amber-400)" stopOpacity="0.25" />
+                <stop offset="1" stopColor="var(--amber-400)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d={`${path} L${w} ${h} L0 ${h} Z`} fill="url(#cf-spark-fill)" stroke="none" />
+            <path d={path} stroke="url(#cf-spark)" />
+            {/* Last point — a small marker. */}
+            <circle
+              cx={w}
+              cy={h - ((points[points.length - 1] - min) / range) * h}
+              r="2.5"
+              fill="var(--amber-300)"
+            />
+          </svg>
+          <div className="text-right">
+            <div className="font-serif italic text-3xl tracking-[-0.02em] text-gradient-warm leading-none">
+              +118%
+            </div>
+            <div className="mt-1 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-mist-400">
+              wow pipeline
+            </div>
+          </div>
+        </div>
+
+        <ul className="mt-5 grid grid-cols-3 gap-3 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-mist-400 border-t border-hairline pt-4">
+          <li>
+            <div className="text-mist-100 text-sm">12d</div>
+            <div>to launch</div>
+          </li>
+          <li>
+            <div className="text-mist-100 text-sm">7</div>
+            <div>squad size</div>
+          </li>
+          <li>
+            <div className="text-mist-100 text-sm">99.97%</div>
+            <div>p99 uptime</div>
+          </li>
+        </ul>
+      </div>
+
+      {/* Tile 2 — recent activity log. */}
+      <div className="hero-panel-el panel rounded-2xl p-5">
+        <div className="flex items-baseline justify-between mb-4">
+          <div className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-mist-400">
+            Recent
+          </div>
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-mist-500">
+            Last 24h
+          </span>
+        </div>
+        <ul className="space-y-3">
+          <LogRow
+            time="14:02"
+            project="Lumen Bank"
+            event="Cashflow forecast v3 shipped to App Store."
+            status="signal"
+          />
+          <LogRow
+            time="11:21"
+            project="Northwind"
+            event="Paid funnel rebuilt; ROAS 2.4× holding into week 6."
+            status="amber"
+          />
+          <LogRow
+            time="09:48"
+            project="Halcyon"
+            event="Pricing migration started — 0 logo churn so far."
+            status="mist"
+          />
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+interface LogRowProps {
+  time: string;
+  project: string;
+  event: string;
+  status: "signal" | "amber" | "mist";
+}
+
+function LogRow({ time, project, event, status }: LogRowProps) {
+  const dotClass = {
+    signal: "bg-signal-400 shadow-[0_0_10px_var(--signal-400)]",
+    amber: "bg-amber-400 shadow-[0_0_10px_var(--amber-400)]",
+    mist: "bg-mist-300",
+  }[status];
+
+  return (
+    <li className="grid grid-cols-[auto_auto_1fr] gap-x-3 items-start">
+      <span aria-hidden="true" className={`mt-1.5 inline-block size-1.5 rounded-full ${dotClass}`} />
+      <span className="font-mono text-[0.65rem] tabular-nums text-mist-400 pt-0.5">{time}</span>
+      <div className="text-sm leading-snug">
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-mist-300 mr-2">
+          {project}
+        </span>
+        <span className="text-mist-100">{event}</span>
+      </div>
+    </li>
   );
 }

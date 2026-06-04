@@ -115,22 +115,25 @@ export default function ContactForm() {
   if (status === "success") {
     return (
       <div
-        className="rounded-3xl glass-strong p-10 text-center"
+        className="paper-strong rounded-3xl p-10 sm:p-12 text-center"
         role="status"
         aria-live="polite"
       >
         <div
           aria-hidden="true"
-          className="mx-auto grid place-items-center size-14 rounded-2xl bg-gradient-to-br from-teal-300 to-cyan-400 text-ink-950 font-display text-2xl"
+          className="mx-auto grid place-items-center size-16 rounded-2xl paper-bone font-display text-3xl"
         >
           ✓
         </div>
-        <h3 className="mt-6 font-display text-3xl tracking-tight">
-          Thanks, {state.name.split(" ")[0] || "friend"}.
+        <h3 className="mt-7 font-display text-4xl sm:text-5xl tracking-[-0.025em]">
+          Thanks,{" "}
+          <span className="font-serif italic text-amber-300">
+            {state.name.split(" ")[0] || "friend"}.
+          </span>
         </h3>
-        <p className="mt-3 text-mist-300">
-          Your note landed. We&apos;ll write back within one working day — usually
-          much sooner.
+        <p className="mt-4 text-mist-300 max-w-md mx-auto leading-relaxed">
+          Your note landed. We&apos;ll write back within one working day —
+          usually much sooner.
         </p>
       </div>
     );
@@ -139,12 +142,12 @@ export default function ContactForm() {
   const fieldClass = (key: keyof ContactState): string =>
     [
       "w-full rounded-2xl bg-surface-1 ring-hairline px-4 py-3.5 text-mist-50 placeholder:text-mist-500",
-      "focus:outline-none focus:ring-2 focus:ring-teal-300 transition",
-      errors[key] ? "ring-2 ring-coral-400" : "",
+      "focus:outline-none focus:ring-2 focus:ring-amber-400 transition",
+      errors[key] ? "ring-2 ring-amber-500" : "",
     ].join(" ");
 
   return (
-    <form noValidate onSubmit={onSubmit} className="rounded-3xl glass-strong p-8 sm:p-10">
+    <form noValidate onSubmit={onSubmit} className="paper-strong rounded-3xl p-8 sm:p-10">
       <div className="grid sm:grid-cols-2 gap-5">
         <Field
           id="name"
@@ -203,11 +206,11 @@ export default function ContactForm() {
         />
       </Field>
 
-      <fieldset className="mt-7">
-        <legend className="text-sm text-mist-300">
+      <fieldset className="mt-8">
+        <legend className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-mist-400">
           What kind of help are you after?
         </legend>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           {disciplineOptions.map((d) => {
             const active = state.disciplines.includes(d.value);
             return (
@@ -220,7 +223,7 @@ export default function ContactForm() {
                 className={[
                   "rounded-full px-4 py-2 text-sm transition",
                   active
-                    ? "bg-mist-50 text-ink-950"
+                    ? "paper-bone"
                     : "bg-surface-1 text-mist-200 ring-hairline hover:text-mist-50",
                 ].join(" ")}
               >
@@ -230,15 +233,17 @@ export default function ContactForm() {
           })}
         </div>
         {touched.disciplines && errors.disciplines ? (
-          <p id="disciplines-err" className="mt-2 text-sm text-coral-300">
+          <p id="disciplines-err" className="mt-2 text-sm text-amber-300">
             {errors.disciplines}
           </p>
         ) : null}
       </fieldset>
 
-      <fieldset className="mt-7">
-        <legend className="text-sm text-mist-300">Budget (optional)</legend>
-        <div className="mt-3 flex flex-wrap gap-2">
+      <fieldset className="mt-8">
+        <legend className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-mist-400">
+          Budget (optional)
+        </legend>
+        <div className="mt-4 flex flex-wrap gap-2">
           {budgetOptions.map((b) => {
             const active = state.budget === b.value;
             return (
@@ -252,7 +257,7 @@ export default function ContactForm() {
                 className={[
                   "rounded-full px-4 py-2 text-sm transition",
                   active
-                    ? "bg-mist-50 text-ink-950"
+                    ? "paper-bone"
                     : "bg-surface-1 text-mist-200 ring-hairline hover:text-mist-50",
                 ].join(" ")}
               >
@@ -293,10 +298,10 @@ export default function ContactForm() {
           type="submit"
           disabled={status === "submitting"}
           className={[
-            "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium tracking-tight transition",
-            "bg-gradient-to-br from-teal-300 to-cyan-400 text-ink-950",
-            "shadow-[0_18px_40px_-12px_color-mix(in_srgb,var(--teal-400)_45%,transparent)]",
-            "disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-105",
+            "inline-flex items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-medium tracking-tight transition",
+            "paper-bone",
+            "shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)]",
+            "disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-95",
           ].join(" ")}
         >
           {status === "submitting" ? (
@@ -306,7 +311,7 @@ export default function ContactForm() {
             </>
           ) : (
             <>
-              Send brief <span aria-hidden="true">→</span>
+              Send brief <span aria-hidden="true" className="font-mono">↗</span>
             </>
           )}
         </button>
@@ -327,17 +332,20 @@ interface FieldProps {
 function Field({ id, label, hint, error, className = "", children }: FieldProps) {
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm text-mist-300 mb-2">
+      <label
+        htmlFor={id}
+        className="block font-mono text-[0.7rem] uppercase tracking-[0.28em] text-mist-400 mb-3"
+      >
         {label}
       </label>
       {children}
       {hint && !error ? (
-        <p id={`${id}-hint`} className="mt-2 text-xs text-mist-400">
+        <p id={`${id}-hint`} className="mt-2 text-xs text-mist-400 font-serif italic">
           {hint}
         </p>
       ) : null}
       {error ? (
-        <p id={`${id}-err`} className="mt-2 text-sm text-coral-300">
+        <p id={`${id}-err`} className="mt-2 text-sm text-amber-300">
           {error}
         </p>
       ) : null}

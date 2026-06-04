@@ -7,6 +7,7 @@ export interface Service {
   blurb: string;
   capabilities: string[];
   deliverables: string[];
+  stack: string[];
   accent: "teal" | "cyan" | "coral" | "mist";
   glyph: string;
 }
