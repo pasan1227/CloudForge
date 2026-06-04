@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# run-cloudforge driver screenshots
+/screenshots
+
 # next.js
 /.next/
 /out/
