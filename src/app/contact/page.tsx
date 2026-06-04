@@ -19,10 +19,12 @@ export default function ContactPage() {
         accentWord="brief"
         description={
           <>
-            We take on a small number of engagements each quarter. Send us a few
-            sentences about what you&apos;re building — or send the deck, the
-            pitch, the back-of-the-napkin idea.{" "}
-            <em className="font-serif italic text-mist-100">We read everything.</em>
+            We light the forge for a small number of engagements each quarter.
+            Send us a few sentences about what you&apos;re building — or send
+            the deck, the pitch, the back-of-the-napkin idea.{" "}
+            <em className="font-serif italic text-mist-100">
+              We read everything.
+            </em>
           </>
         }
       />

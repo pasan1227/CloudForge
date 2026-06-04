@@ -36,9 +36,9 @@ export default function CtaMarquee() {
                 <span className="font-serif italic text-gradient-warm">worth building?</span>
               </h2>
               <p className="mt-6 max-w-lg text-lg text-mist-200 leading-relaxed">
-                We take on a small number of engagements each quarter. If your
-                deadline is real, the brief is sharp, and you&rsquo;d like a
-                senior team on it,{" "}
+                We light the forge for a small number of engagements each
+                quarter. If your deadline is real, the brief is sharp, and
+                you&rsquo;d like a senior team on it,{" "}
                 <span className="font-serif italic text-mist-100">
                   we&rsquo;d love to talk.
                 </span>

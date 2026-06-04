@@ -5,7 +5,7 @@
  * are easy to swap without touching layout.
  */
 const status = {
-  availability: "Open for Q3 — 2 of 4 slots filled",
+  availability: "Forge open · 2 of 4 slots Q3 2026",
   region: "BKN · LIS · SGP",
   lastDeploy: "v6.2.1 · 4h ago",
   clock: "UTC−05",

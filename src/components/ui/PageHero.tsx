@@ -86,6 +86,7 @@ export default function PageHero({
     >
       <div className="glow" aria-hidden="true">
         <div className="glow__orb glow__orb--amber -top-44 -right-32" />
+        <div className="glow__orb glow__orb--steel -bottom-32 -left-16" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10">

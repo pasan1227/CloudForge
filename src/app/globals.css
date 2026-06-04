@@ -47,6 +47,14 @@
   --signal-400: #3ed683;
   --signal-500: #18ad60;
 
+  /* Steel — the "Cloud" counterpoint to the amber Forge. Desaturated
+   * atmospheric blue-gray. Used sparingly: secondary glow, "shipped to
+   * cloud" markers, the sparkline reference line. */
+  --steel-200: #c9d4df;
+  --steel-300: #94a6b9;
+  --steel-400: #5c7185;
+  --steel-500: #364759;
+
   /* Surfaces. */
   --background: var(--ink-900);
   --foreground: var(--mist-50);
@@ -108,6 +116,11 @@
   --color-signal-300: var(--signal-300);
   --color-signal-400: var(--signal-400);
   --color-signal-500: var(--signal-500);
+
+  --color-steel-200: var(--steel-200);
+  --color-steel-300: var(--steel-300);
+  --color-steel-400: var(--steel-400);
+  --color-steel-500: var(--steel-500);
 
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
@@ -345,6 +358,12 @@ body {
   width: 32rem; height: 32rem;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--bone-50) 22%, transparent), transparent 70%);
   opacity: 0.35;
+}
+/* Steel — the "Cloud" counterpoint to the amber forge glow. */
+.glow__orb--steel {
+  width: 36rem; height: 36rem;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--steel-300) 35%, transparent), transparent 72%);
+  opacity: 0.4;
 }
 
 /* Char reveal. */

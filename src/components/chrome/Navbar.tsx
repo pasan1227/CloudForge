@@ -115,7 +115,7 @@ export default function Navbar() {
               href="/contact"
               className="hidden sm:inline-flex items-center gap-2 rounded-full paper-bone px-4 py-2 text-sm font-medium hover:brightness-95 transition"
             >
-              Start a project
+              Start a build
               <span aria-hidden="true" className="font-mono">↗</span>
             </Link>
 
@@ -181,7 +181,7 @@ export default function Navbar() {
                 href="/contact"
                 className="flex items-center justify-center rounded-2xl paper-bone px-4 py-4 font-medium"
               >
-                Start a project
+                Start a build
               </Link>
             </li>
           </ul>

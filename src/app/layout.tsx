@@ -45,15 +45,15 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://cloudforge.com"),
   title: {
-    default: "CloudForge — Software & growth, in lockstep",
+    default: "CloudForge — Software, forged. Growth, in lockstep.",
     template: "%s · CloudForge",
   },
   description:
-    "CloudForge is a full-service software and digital marketing agency. We design and engineer products that ship, then put growth engines behind them.",
+    "CloudForge is a senior-led software and growth studio. We forge the products you ship, then put growth engines behind them.",
   openGraph: {
-    title: "CloudForge — Software & growth, in lockstep",
+    title: "CloudForge — Software, forged. Growth, in lockstep.",
     description:
-      "Product engineering, growth marketing, brand and strategy under one roof.",
+      "Product engineering, growth marketing, brand and strategy — forged under one roof, on one timeline.",
     type: "website",
   },
 };

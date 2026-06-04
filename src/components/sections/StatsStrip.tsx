@@ -274,8 +274,8 @@ function BarChart({ points }: { points: number[] }) {
             y={h - bh}
             width={barW}
             height={bh}
-            fill={i === points.length - 1 ? "var(--amber-400)" : "var(--mist-300)"}
-            opacity={i === points.length - 1 ? 1 : 0.4}
+            fill={i === points.length - 1 ? "var(--amber-400)" : "var(--steel-300)"}
+            opacity={i === points.length - 1 ? 1 : 0.45}
             rx="0.5"
           />
         );
@@ -302,8 +302,8 @@ function RingChart({ percent }: { percent: number }) {
         cy="28"
         r={r}
         fill="none"
-        stroke="var(--mist-500)"
-        strokeOpacity="0.35"
+        stroke="var(--steel-400)"
+        strokeOpacity="0.55"
         strokeWidth="2"
       />
       <circle

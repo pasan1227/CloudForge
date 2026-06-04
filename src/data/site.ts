@@ -10,9 +10,9 @@ import type {
 
 export const company = {
   name: "CloudForge",
-  tagline: "Software & growth, in lockstep.",
+  tagline: "Software, forged. Growth, in lockstep.",
   blurb:
-    "We design and engineer products that ship, then put growth engines behind them — under one roof, on one timeline.",
+    "We forge the software your business runs on, then put growth engines behind it — under one roof, on one timeline.",
   email: "hello@cloudforge.com",
   phone: "+1 (415) 555-0144",
   location: "Brooklyn · Lisbon · Singapore",
@@ -36,9 +36,9 @@ export const services: readonly Service[] = [
   {
     id: "engineering",
     name: "Product Engineering",
-    tagline: "Ship the thing. Then ship the next thing.",
+    tagline: "Forge it. Ship it. Ship the next thing.",
     blurb:
-      "From zero-to-one MVPs to scale-stage rewrites. We build webapps, mobile, and backends that hold up under real traffic and real edge cases.",
+      "From zero-to-one MVPs to scale-stage rewrites. We forge webapps, mobile, and backends that hold up under real traffic and real edge cases.",
     capabilities: [
       "Next.js & React",
       "Mobile (RN, Swift, Kotlin)",
@@ -108,7 +108,7 @@ export const services: readonly Service[] = [
   {
     id: "strategy",
     name: "Strategy",
-    tagline: "Decide before you build.",
+    tagline: "Decide before you forge.",
     blurb:
       "Market sizing, positioning, pricing, and product strategy — short engagements that turn into the rationale for everything else we do together.",
     capabilities: [
@@ -140,13 +140,13 @@ export const process: readonly ProcessStep[] = [
   },
   {
     index: "02",
-    title: "Frame",
+    title: "Spark",
     blurb:
-      "One short document — the strategy, the bet, the measurable outcome. If we can't articulate it on a page, we don't ship it.",
+      "One short document — the strategy, the bet, the measurable outcome. If we can't articulate it on a page, we don't light the forge.",
   },
   {
     index: "03",
-    title: "Build",
+    title: "Forge",
     blurb:
       "Designers, engineers, and growth working on the same Notion. Weekly demos, no waterfalls, no surprise scope creep.",
   },

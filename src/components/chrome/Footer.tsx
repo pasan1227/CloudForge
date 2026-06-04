@@ -100,7 +100,7 @@ export default function Footer() {
         <div className="flex flex-wrap items-center gap-x-8 gap-y-3 py-5 ops-label">
           <span className="inline-flex items-center gap-2 text-mist-100">
             <span aria-hidden="true" className="live-dot" />
-            All systems nominal
+            Forge is hot · All systems nominal
           </span>
           <span aria-hidden="true" className="h-3 w-px bg-hairline-strong" />
           <span>

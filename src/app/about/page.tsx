@@ -30,10 +30,10 @@ export default function AboutPage() {
         description={
           <>
             We started CloudForge because most agencies stop one step short of
-            where the interesting work begins. We wanted a place where{" "}
-            <em className="font-serif italic text-mist-100">making</em> and{" "}
-            <em className="font-serif italic text-mist-100">growing</em> sit at
-            the same table — and stay there long after launch.
+            where the interesting work begins. We wanted a place where the{" "}
+            <em className="font-serif italic text-mist-100">forge</em> and the{" "}
+            <em className="font-serif italic text-mist-100">growth engine</em>{" "}
+            sit at the same table — and stay there long after launch.
           </>
         }
       />

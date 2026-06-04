@@ -64,10 +64,10 @@ export default function Hero() {
       ref={ref}
       className="relative isolate overflow-hidden pt-44 pb-24 sm:pt-56 sm:pb-32"
     >
-      {/* Single warm glow. */}
+      {/* Forge glow + Cloud counterpoint. */}
       <div className="glow" aria-hidden="true">
         <div className="glow__orb glow__orb--amber -top-40 -right-32" />
-        <div className="glow__orb glow__orb--bone bottom-[-12rem] left-[10%]" />
+        <div className="glow__orb glow__orb--steel bottom-[-14rem] left-[6%]" />
       </div>
 
       <div
@@ -85,7 +85,7 @@ export default function Hero() {
         <div className="hero-eyebrow flex flex-wrap items-center justify-between gap-4 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-mist-400">
           <span className="inline-flex items-center gap-3">
             <span aria-hidden="true" className="live-dot" />
-            <span className="text-mist-100">Open for Q3 — 2 of 4 slots filled</span>
+            <span className="text-mist-100">Forge is hot · 2 of 4 Q3 slots open</span>
           </span>
           <span className="hidden sm:inline">
             A senior-led product &amp; growth studio
@@ -96,9 +96,9 @@ export default function Hero() {
           {/* Headline column */}
           <div className="lg:col-span-7 relative">
             <h1 className="font-display text-[clamp(3rem,7.5vw,7.5rem)] leading-[0.94] tracking-[-0.025em] text-balance">
-              <span className="hero-line-a block">Software &amp; growth,</span>
+              <span className="hero-line-a block">Software, forged.</span>
               <span className="hero-line-b block mt-2 sm:mt-3">
-                in&nbsp;
+                Growth, in&nbsp;
                 <span className="hero-accent inline-block clip-reveal italic font-serif text-gradient-warm">
                   lockstep
                 </span>
@@ -107,14 +107,14 @@ export default function Hero() {
             </h1>
 
             <p className="hero-sub mt-9 max-w-xl text-lg sm:text-xl text-mist-200 leading-relaxed">
-              A senior-led studio that designs, ships, and grows the products
-              you care about — engineering, marketing, brand, and strategy,
+              A senior-led studio that forges the software you ship and grows
+              what it touches — engineering, marketing, brand, and strategy,
               briefed on the same page.
             </p>
 
             <div className="hero-cta mt-10 flex flex-wrap items-center gap-4">
               <MagneticButton href="/contact" variant="primary">
-                Start a project
+                Start a build
                 <span aria-hidden="true" className="font-mono">↗</span>
               </MagneticButton>
               <MagneticButton href="/work" variant="ghost" strength={0.18}>
@@ -289,7 +289,7 @@ function SystemPanel() {
             time="09:48"
             project="Halcyon"
             event="Pricing migration started — 0 logo churn so far."
-            status="mist"
+            status="steel"
           />
         </ul>
       </div>
@@ -301,14 +301,14 @@ interface LogRowProps {
   time: string;
   project: string;
   event: string;
-  status: "signal" | "amber" | "mist";
+  status: "signal" | "amber" | "steel";
 }
 
 function LogRow({ time, project, event, status }: LogRowProps) {
   const dotClass = {
     signal: "bg-signal-400 shadow-[0_0_10px_var(--signal-400)]",
     amber: "bg-amber-400 shadow-[0_0_10px_var(--amber-400)]",
-    mist: "bg-mist-300",
+    steel: "bg-steel-300 shadow-[0_0_10px_var(--steel-400)]",
   }[status];
 
   return (
