@@ -212,6 +212,22 @@ body {
   color: transparent;
 }
 
+/* Editorial outlined numeral.
+ * Pure stroke, no fill — used for chapter-marker-style numerals at huge sizes.
+ * The drop-shadow is a single radial bloom; kept tight so it doesn't repaint
+ * neighbors on scroll. */
+@utility numeral-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.25px var(--teal-300);
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--teal-400) 22%, transparent));
+}
+
+@utility numeral-outline-warm {
+  color: transparent;
+  -webkit-text-stroke: 1.25px var(--coral-400);
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--coral-500) 22%, transparent));
+}
+
 /* Aurora orb — radial gradients are free; CSS filter blur is not.
  * We use a wide-spread soft radial instead of filter:blur — same look,
  * a fraction of the cost. The orbs sit on their own compositor layers. */
